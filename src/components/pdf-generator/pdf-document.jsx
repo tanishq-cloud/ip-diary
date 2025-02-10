@@ -42,7 +42,7 @@ const PDFDocument = ({ data, font, positions, userDetails }) => {
 
           {/* Logo will be imported from assets */}
           <Image 
-            src="src/assets/logo.png" 
+            src="/logo.png" 
             style={styles.logo}
           />
           <Text style={styles.facultyText}>Faculty of Science & Technology</Text>
