@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { PDFViewer } from '@react-pdf/renderer';
 import FileUpload from '../form/file-upload';
 import PDFDocument from './pdf-document';
+import  UserDetailsForm  from  '../form/user-details'
 
 const PDFGenerator = () => {
   const [data, setData] = useState([]);
   const [showPreview, setShowPreview] = useState(false);
   const [font, setFont] = useState('Helvetica');
+  const [userDetails, setUserDetails] = useState(null);
   const [positions, setPositions] = useState({
     header: { top: 20 },
     content: { marginTop: 40 },
@@ -29,9 +31,17 @@ const PDFGenerator = () => {
         <div className="space-y-6">
           <h2 className="text-xl font-semibold text-gray-800">PDF Settings</h2>
           
+          {/* User Details Form */}
+          <div className="space-y-2">
+            <h3 className="text-sm font-medium text-gray-700">Student Details</h3>
+            <UserDetailsForm 
+              onSubmit={(details) => setUserDetails(details)}
+            />
+          </div>
+
           {/* File Upload Section */}
           <div className="space-y-2">
-            <h3 className="text-sm font-medium text-gray-700">Upload File</h3>
+            <h3 className="text-sm font-medium text-gray-700">Upload Daily Tasks</h3>
             <FileUpload
               onDataProcessed={(processedData) => {
                 setData(processedData);
@@ -72,11 +82,16 @@ const PDFGenerator = () => {
       <div className="flex-1 bg-gray-100">
         {showPreview ? (
           <PDFViewer width="100%" height="100%">
-            <PDFDocument data={data} font={font} positions={positions} />
+            <PDFDocument 
+              data={data} 
+              font={font} 
+              positions={positions}
+              userDetails={userDetails}
+            />
           </PDFViewer>
         ) : (
           <div className="h-full flex items-center justify-center text-gray-500">
-            <p className="text-lg">Upload a file to preview PDF</p>
+            <p className="text-lg">Fill in details and upload file to preview PDF</p>
           </div>
         )}
       </div>

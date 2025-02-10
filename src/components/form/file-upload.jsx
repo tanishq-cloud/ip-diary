@@ -38,14 +38,14 @@ const FileUpload = ({ onDataProcessed }) => {
 
         // Process the parsed data to extract day and date
         const processedData = parsedData.map((entry) => {
-          const dateMatch = entry.Date.match(/^(\w+),\s+(.+)$/); // Regex to split day and date
-          const day = dateMatch ? dateMatch[1] : null; // Extract day (e.g., "Monday")
-          const formattedDate = dateMatch ? dateMatch[2] : null; // Extract date (e.g., "January 6, 2025")
+          const dateMatch = entry.Date.match(/^(\w+),\s+(.+)$/); 
+          const day = dateMatch ? dateMatch[1] : null; 
+          const formattedDate = dateMatch ? dateMatch[2] : null; 
 
           return {
             Day: day,
             Date: formattedDate,
-            Task: entry.Task.trim(), // Remove leading/trailing whitespace
+            Task: entry.Task.trim(), 
           };
         });
 
