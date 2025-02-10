@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview --host"
+    "preview": "vite preview --host",
+    "format": "prettier . --write"
   },
   "dependencies": {
     "@react-pdf/renderer": "^4.2.1",
@@ -27,6 +28,8 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.18",
     "globals": "^15.14.0",
+    "lefthook": "^1.10.10",
+    "prettier": "3.5.0",
     "vite": "^6.1.0"
   }
 }
