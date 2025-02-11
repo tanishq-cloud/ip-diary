@@ -1,5 +1,4 @@
 ![IP Diary Generator](ip-diary-repocard_readme.gif)
-
 ![GitHub repo size](https://img.shields.io/github/repo-size/tanishq-cloud/ip-diary)
 ![GitHub last commit](https://img.shields.io/github/last-commit/tanishq-cloud/ip-diary)
 
