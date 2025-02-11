@@ -25,7 +25,9 @@ const UserDetailsForm = ({ onSubmit }) => {
   }, [userDetails]);
 
   // State to track whether data is being edited or created
-  const [isEditing, setIsEditing] = useState(!!localStorage.getItem("userDetails"));
+  const [isEditing, setIsEditing] = useState(
+    !!localStorage.getItem("userDetails"),
+  );
 
   // Function to handle form submission
   const handleSubmit = (e) => {
@@ -40,7 +42,9 @@ const UserDetailsForm = ({ onSubmit }) => {
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Name Field */}
         <div>
-          <label className="block text-sm font-medium text-gray-700">Name</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Name
+          </label>
           <input
             type="text"
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
@@ -54,7 +58,9 @@ const UserDetailsForm = ({ onSubmit }) => {
 
         {/* ID No Field */}
         <div>
-          <label className="block text-sm font-medium text-gray-700">ID No.</label>
+          <label className="block text-sm font-medium text-gray-700">
+            ID No.
+          </label>
           <input
             type="text"
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
@@ -68,7 +74,9 @@ const UserDetailsForm = ({ onSubmit }) => {
 
         {/* IP Station Field */}
         <div>
-          <label className="block text-sm font-medium text-gray-700">IP Station</label>
+          <label className="block text-sm font-medium text-gray-700">
+            IP Station
+          </label>
           <input
             type="text"
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"

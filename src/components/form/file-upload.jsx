@@ -171,12 +171,23 @@ const FileUpload = ({ onDataProcessed }) => {
                 placeholder="Enter Google Sheets public link"
                 className="block w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-              <button
-                type="submit"
-                className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-              >
-                Submit
-              </button>
+              <div className="flex items-center justify-between">
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                >
+                  Submit
+                </button>
+                {/* Help Hyperlink */}
+                <a
+                  href="https://github.com/tanishq-cloud/ip-diary/wiki/Task-format"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-blue-500 hover:underline"
+                >
+                  How to format tasks?
+                </a>
+              </div>
             </form>
           ) : (
             <div className="flex items-center space-x-4">

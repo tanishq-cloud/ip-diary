@@ -106,11 +106,15 @@ const PDFGenerator = () => {
           } md:w-1/3 w-full p-4 border-b md:border-r border-gray-200 overflow-y-auto bg-gray-50`}
         >
           <div className="space-y-6">
-            <h2 className="text-xl font-semibold text-gray-800">PDF Settings</h2>
+            <h2 className="text-xl font-semibold text-gray-800">
+              PDF Settings
+            </h2>
 
             {/* User Details Form */}
             <div className="space-y-2">
-              <h3 className="text-sm font-medium text-gray-700">Student Details</h3>
+              <h3 className="text-sm font-medium text-gray-700">
+                Student Details
+              </h3>
               <UserDetailsForm
                 onSubmit={(details) => {
                   setUserDetails(details);
@@ -121,14 +125,16 @@ const PDFGenerator = () => {
 
             {/* File Upload Section */}
             <div className="space-y-2">
-              <h3 className="text-sm font-medium text-gray-700">Upload Daily Tasks</h3>
+              <h3 className="text-sm font-medium text-gray-700">
+                Upload Daily Tasks
+              </h3>
               <FileUpload
                 onDataProcessed={(processedData) => {
                   setData(processedData);
                   setShowPreview(true);
                   localStorage.setItem(
                     "processedData",
-                    JSON.stringify(processedData)
+                    JSON.stringify(processedData),
                   );
                 }}
               />
@@ -136,7 +142,9 @@ const PDFGenerator = () => {
 
             {/* Font Selection */}
             <div className="space-y-2">
-              <h3 className="text-sm font-medium text-gray-700">Font Selection</h3>
+              <h3 className="text-sm font-medium text-gray-700">
+                Font Selection
+              </h3>
               <select
                 data-testid="font-select"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -151,7 +159,9 @@ const PDFGenerator = () => {
 
             {/* Layout Selection */}
             <div className="space-y-2">
-              <h3 className="text-sm font-medium text-gray-700">Layout Style</h3>
+              <h3 className="text-sm font-medium text-gray-700">
+                Layout Style
+              </h3>
               <select
                 data-testid="layout-select"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
