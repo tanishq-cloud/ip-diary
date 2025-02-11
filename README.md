@@ -1,4 +1,4 @@
-# IP - Diary Generator
+![IP Diary Generator](ip-diary-repocard_readme.gif)
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/tanishq-cloud/ip-diary)
 ![GitHub last commit](https://img.shields.io/github/last-commit/tanishq-cloud/ip-diary)
@@ -25,17 +25,20 @@ Check out the live version of the IP Diary Generator [here](https://tanishq-clou
 ### Installation
 
 1. **Clone or Fork the Repository**:
+
    ```bash
    git clone https://github.com/tanishq-cloud/ip-diary.git
    cd ip-diary
    ```
 
 2. **Create a New Branch for Contribution**:
+
    ```bash
    git checkout -b your-feature-branch
    ```
 
 3. **Install Dependencies**:
+
    ```bash
    npm install
    ```
@@ -74,10 +77,9 @@ Contributions are welcome! Please follow these steps:
 - **More Connectors**: Add support for more data sources like Microsoft Excel.
 
 ## Repository Visualization
-![Visualization of this repo](./diagram.svg)
 
+![Visualization of this repo](./diagram.svg)
 
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
