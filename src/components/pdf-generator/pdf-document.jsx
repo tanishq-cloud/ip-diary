@@ -2,9 +2,12 @@ import React from "react";
 import { Document, Page, Text, View, Image } from "@react-pdf/renderer";
 import styles from "./style-sheet";
 
+
+
 const PDFDocument = ({ data, font, positions, userDetails }) => {
   const filteredData = data.filter((entry) => entry.Task !== "HOLIDAY");
   const holidays = data.filter((entry) => entry.Task === "HOLIDAY");
+  const BASE_URL = import.meta.env.BASE_URL;
 
   return (
     <Document>
@@ -54,7 +57,7 @@ const PDFDocument = ({ data, font, positions, userDetails }) => {
           </View>
 
           {/* Logo will be imported from assets */}
-          <Image src="/logo.png" style={styles.logo} />
+          <Image src={BASE_URL + "logo.png"} style={styles.logo} />
           <Text style={styles.facultyText}>
             Faculty of Science & Technology
           </Text>
