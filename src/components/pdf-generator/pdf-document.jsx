@@ -57,7 +57,7 @@ const PDFDocument = ({ data, font, positions, userDetails }) => {
           </View>
 
           {/* Logo will be imported from assets */}
-          <Image src={BASE_URL + "logo.png"} style={styles.logo} />
+          <Image src="https://cloud.appwrite.io/v1/storage/buckets/67ab89ad0011633d1e0d/files/67ab89ce00171de2ae00/view?project=67ab87e7000e083f2266&mode=admin" style={styles.logo} />
           <Text style={styles.facultyText}>
             Faculty of Science & Technology
           </Text>
