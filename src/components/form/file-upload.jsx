@@ -4,7 +4,7 @@ import * as XLSX from "xlsx";
 const FileUpload = ({ onDataProcessed }) => {
   const [activeTab, setActiveTab] = useState("upload");
   const [googleSheetLink, setGoogleSheetLink] = useState(
-    localStorage.getItem("googleSheetLink") || ""
+    localStorage.getItem("googleSheetLink") || "",
   );
   const [isEditing, setIsEditing] = useState(!googleSheetLink);
 
@@ -100,10 +100,11 @@ const FileUpload = ({ onDataProcessed }) => {
 
     // Validate the link format
     const isValidLink =
-      link.includes("docs.google.com/spreadsheets") && link.includes("output=csv");
+      link.includes("docs.google.com/spreadsheets") &&
+      link.includes("output=csv");
     if (!isValidLink) {
       alert(
-        "Invalid Google Sheets link. Please provide a valid CSV export link."
+        "Invalid Google Sheets link. Please provide a valid CSV export link.",
       );
       return;
     }
@@ -152,12 +153,26 @@ const FileUpload = ({ onDataProcessed }) => {
       </div>
 
       {activeTab === "upload" && (
+        <div>
         <input
           type="file"
           accept=".xlsx, .xls, .csv"
           onChange={handleFileUpload}
           className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
         />
+
+        <div className="mt-2 text-sm text-gray-600">
+      <span>Need help formatting your CSV file? </span>
+      <a
+        href="https://github.com/tanishq-cloud/ip-diary/wiki/Task-Format-(CSV-File)"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-500 hover:underline"
+      >
+        Click here
+      </a>
+    </div>
+    </div>
       )}
 
       {activeTab === "link" && (
@@ -180,7 +195,7 @@ const FileUpload = ({ onDataProcessed }) => {
                 </button>
                 {/* Help Hyperlink */}
                 <a
-                  href="https://github.com/tanishq-cloud/ip-diary/wiki/Task-format"
+                  href="https://github.com/tanishq-cloud/ip-diary/wiki/Task-Format-(Google-Sheets-Public-Link)"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-sm text-blue-500 hover:underline"
