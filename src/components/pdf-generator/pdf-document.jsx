@@ -1,6 +1,7 @@
 import React from "react";
 import { Document, Page, Text, View, Image } from "@react-pdf/renderer";
 import styles from "./style-sheet";
+import ifhelogo from "/public/ifhe.jpg";
 
 const PDFDocument = ({ data, font, positions, userDetails }) => {
   const filteredData = data.filter((entry) => entry.Task !== "HOLIDAY");
@@ -54,10 +55,7 @@ const PDFDocument = ({ data, font, positions, userDetails }) => {
           </View>
 
           {/* Logo will be imported from assets */}
-          <Image
-            src="/logo.png"
-            style={styles.logo}
-          />
+          <Image src={ifhelogo} style={styles.logo} />
           <Text style={styles.facultyText}>
             Faculty of Science & Technology
           </Text>
