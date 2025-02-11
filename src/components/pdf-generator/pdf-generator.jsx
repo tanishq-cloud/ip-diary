@@ -1,8 +1,21 @@
 import React, { useState } from "react";
-import { PDFViewer } from "@react-pdf/renderer";
+import { PDFViewer, PDFDownloadLink } from "@react-pdf/renderer";
 import FileUpload from "../form/file-upload";
 import PDFDocument from "./pdf-document";
 import UserDetailsForm from "../form/user-details";
+
+// Utility to detect if the browser is Firefox
+const isFirefox = () => {
+  const { userAgent } = navigator;
+  return userAgent.includes("Firefox");
+};
+
+// Utility to detect if the device is mobile
+const isMobileDevice = () => {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  );
+};
 
 const PDFGenerator = () => {
   const [data, setData] = useState([]);
@@ -14,7 +27,7 @@ const PDFGenerator = () => {
     content: { marginTop: 40 },
     footer: { bottom: 40 },
   });
-  const [activeTab, setActiveTab] = useState("form"); // Tracks active tab (form or pdf)
+  const [activeTab, setActiveTab] = useState("form");
 
   const handleChange = (event) => {
     const selectedLayout = event.target.value;
@@ -32,7 +45,10 @@ const PDFGenerator = () => {
       });
     }
   };
-//this should work?
+
+  // Check if the browser supports inline PDF rendering
+  const supportsInlinePDF = !isMobileDevice() || (isMobileDevice() && isFirefox());
+
   return (
     <div className="flex flex-col h-screen">
       {/* Tabs for Mobile */}
@@ -57,22 +73,30 @@ const PDFGenerator = () => {
 
       {/* Content Area */}
       <div className="flex-1 flex md:flex-row flex-col">
-        {/* Left Panel - Forms (Hidden on Mobile if PDF Tab is Active) */}
+        {/* Left Panel - Forms */}
         <div
           className={`${
             activeTab === "pdf" && "hidden md:block"
           } md:w-1/3 w-full p-4 border-b md:border-r border-gray-200 overflow-y-auto bg-gray-50`}
         >
           <div className="space-y-6">
-            <h2 className="text-xl font-semibold text-gray-800">PDF Settings</h2>
+            <h2 className="text-xl font-semibold text-gray-800">
+              PDF Settings
+            </h2>
             {/* User Details Form */}
             <div className="space-y-2">
-              <h3 className="text-sm font-medium text-gray-700">Student Details</h3>
-              <UserDetailsForm onSubmit={(details) => setUserDetails(details)} />
+              <h3 className="text-sm font-medium text-gray-700">
+                Student Details
+              </h3>
+              <UserDetailsForm
+                onSubmit={(details) => setUserDetails(details)}
+              />
             </div>
             {/* File Upload Section */}
             <div className="space-y-2">
-              <h3 className="text-sm font-medium text-gray-700">Upload Daily Tasks</h3>
+              <h3 className="text-sm font-medium text-gray-700">
+                Upload Daily Tasks
+              </h3>
               <FileUpload
                 onDataProcessed={(processedData) => {
                   setData(processedData);
@@ -82,7 +106,9 @@ const PDFGenerator = () => {
             </div>
             {/* Font Selection */}
             <div className="space-y-2">
-              <h3 className="text-sm font-medium text-gray-700">Font Selection</h3>
+              <h3 className="text-sm font-medium text-gray-700">
+                Font Selection
+              </h3>
               <select
                 data-testid="font-select"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -96,7 +122,9 @@ const PDFGenerator = () => {
             </div>
             {/* Layout Selection */}
             <div className="space-y-2">
-              <h3 className="text-sm font-medium text-gray-700">Layout Style</h3>
+              <h3 className="text-sm font-medium text-gray-700">
+                Layout Style
+              </h3>
               <select
                 data-testid="layout-select"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -109,35 +137,69 @@ const PDFGenerator = () => {
           </div>
         </div>
 
-        {/* Right Panel - PDF Viewer (Hidden on Mobile if Form Tab is Active) */}
+        {/* Right Panel - PDF Viewer or Download Link */}
         <div
           className={`${
             activeTab === "form" && "hidden md:block"
           } flex-1 relative bg-gray-100`}
         >
           {showPreview ? (
-            <PDFViewer
-              className="absolute inset-0 w-full h-full"
-              style={{
-                border: "none",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <PDFDocument
-                data={data}
-                font={font}
-                positions={positions}
-                userDetails={userDetails}
-              />
-            </PDFViewer>
+            supportsInlinePDF ? (
+              // Render PDF preview for supported browsers
+              <PDFViewer
+                className="absolute inset-0 w-full h-full"
+                style={{
+                  border: "none",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <PDFDocument
+                  data={data}
+                  font={font}
+                  positions={positions}
+                  userDetails={userDetails}
+                />
+              </PDFViewer>
+            ) : (
+              // Fallback to download link for unsupported browsers
+              <div className="p-4">
+                <h2 className="text-lg font-semibold mb-4">
+                  Your browser does not support inline PDF preview. Please use Firefox on mobile or any desktop browser.
+                </h2>
+                <PDFDownloadLink
+                  document={
+                    <PDFDocument
+                      data={data}
+                      font={font}
+                      positions={positions}
+                      userDetails={userDetails}
+                    />
+                  }
+                  fileName="document.pdf"
+                >
+                  {({ loading }) =>
+                    loading ? (
+                      <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                        Generating PDF...
+                      </button>
+                    ) : (
+                      <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                        Download PDF
+                      </button>
+                    )
+                  }
+                </PDFDownloadLink>
+              </div>
+            )
           ) : (
             <div className="h-full flex items-center justify-center text-gray-500">
-              <p className="text-lg">Fill in details and upload file to preview PDF</p>
+              <p className="text-lg">
+                Fill in details and upload file to preview PDF
+              </p>
             </div>
           )}
-          
         </div>
       </div>
     </div>
@@ -145,3 +207,4 @@ const PDFGenerator = () => {
 };
 
 export default PDFGenerator;
+  

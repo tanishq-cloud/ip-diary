@@ -4,7 +4,7 @@ import * as XLSX from "xlsx";
 const FileUpload = ({ onDataProcessed }) => {
   const handleFileUpload = (e) => {
     const file = e.target.files?.[0];
-    if (!file) return;
+    if (!file) { return; }
 
     const reader = new FileReader();
 
