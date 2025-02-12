@@ -1,4 +1,11 @@
-import { StyleSheet } from "@react-pdf/renderer";
+import { StyleSheet, Font } from "@react-pdf/renderer";
+import LibreBaskervilleItalic from '/src/assets/fonts/LibreBaskerville-Italic.ttf';
+
+Font.register({
+  family: 'Libre Baskerville',
+  src: LibreBaskervilleItalic,
+  fontStyle: 'italic'
+});
 
 const styles = StyleSheet.create({
   page: {
@@ -30,6 +37,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 40,
     textAlign: "center",
+    fontFamily: 'Libre Baskerville',
+    fontStyle: 'italic',
   },
   detailsContainer: {
     width: "100%",
