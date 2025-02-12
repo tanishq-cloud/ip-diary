@@ -215,7 +215,7 @@ const PDFGenerator = () => {
                       userDetails={userDetails}
                     />
                   }
-                  fileName="document.pdf"
+                  fileName={`IP_Diary_${userDetails.idNo}.pdf`}
                 >
                   {({ loading }) =>
                     loading ? (

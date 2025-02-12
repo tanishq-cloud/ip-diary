@@ -1,10 +1,10 @@
 import { StyleSheet, Font } from "@react-pdf/renderer";
-import LibreBaskervilleItalic from '/src/assets/fonts/LibreBaskerville-Italic.ttf';
+import LibreBaskervilleItalic from "/src/assets/fonts/LibreBaskerville-Italic.ttf";
 
 Font.register({
-  family: 'Libre Baskerville',
+  family: "Libre Baskerville",
   src: LibreBaskervilleItalic,
-  fontStyle: 'italic'
+  fontStyle: "italic",
 });
 
 const styles = StyleSheet.create({
@@ -16,13 +16,13 @@ const styles = StyleSheet.create({
     margin: 10,
     border: "1 solid black",
     height: "93%",
-    position: "relative", // Add this to establish positioning context
+    position: "relative", 
   },
   contentPage: {
     padding: 30,
     backgroundColor: "#ffffff",
-    height: "100%", // Add this to ensure full height
-    position: "relative", // Add this for footer positioning
+    height: "100%", 
+    position: "relative", 
   },
   coverPage: {
     display: "flex",
@@ -37,8 +37,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 40,
     textAlign: "center",
-    fontFamily: 'Libre Baskerville',
-    fontStyle: 'italic',
+    fontFamily: "Libre Baskerville",
+    fontStyle: "italic",
   },
   detailsContainer: {
     width: "100%",
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    marginBottom: 100, // Add space for footer
+    marginBottom: 100, 
   },
   footer: {
     position: "absolute",
