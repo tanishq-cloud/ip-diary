@@ -16,13 +16,13 @@ const styles = StyleSheet.create({
     margin: 10,
     border: "1 solid black",
     height: "93%",
-    position: "relative", 
+    position: "relative",
   },
   contentPage: {
     padding: 30,
     backgroundColor: "#ffffff",
-    height: "100%", 
-    position: "relative", 
+    height: "100%",
+    position: "relative",
   },
   coverPage: {
     display: "flex",
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    marginBottom: 100, 
+    marginBottom: 100,
   },
   footer: {
     position: "absolute",

@@ -3,10 +3,22 @@ import { Document, Page, Text, View, Image } from "@react-pdf/renderer";
 import styles from "./style-sheet";
 import ifhelogo from "/public/ifhe.jpg";
 
+function formatDate(date) {
+    const dateObj = new Date(date);
+
+    
+    const day = String(dateObj.getDate()).padStart(2, '0');
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0'); 
+    const year = dateObj.getFullYear();
+
+    
+    return `${day}/${month}/${year}`;
+}
+
 const PDFDocument = ({ data, font, positions, userDetails }) => {
   const filteredData = data.filter((entry) => entry.Task !== "HOLIDAY");
   const holidays = data.filter((entry) => entry.Task === "HOLIDAY");
-
+  
   return (
     <Document>
       {/* Cover Page */}
@@ -36,8 +48,8 @@ const PDFDocument = ({ data, font, positions, userDetails }) => {
             <View style={styles.detailRow}>
               <Text style={styles.label}>Duration</Text>
               <Text style={styles.value}>
-                : {userDetails?.duration?.from || "_________"} to{" "}
-                {userDetails?.duration?.to || "_________"}
+                : {formatDate(userDetails?.duration?.from) || "_________"} to{" "}
+                {formatDate(userDetails?.duration?.to) || "_________"}
               </Text>
             </View>
             <View style={styles.detailRow}>
