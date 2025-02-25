@@ -12,16 +12,41 @@ function formatDate(date) {
 }
 
 const PDFDocument = ({ data, font, positions, userDetails }) => {
-  const filteredData = data.filter((entry) => entry.Task !== "HOLIDAY");
-  const holidays = data.filter((entry) => entry.Task === "HOLIDAY");
+  
+  
 
-  // Separate holidays and leaves
+  const normalizeTask = (task) => task.trim().toLowerCase();
+
+  
+  const holidays = data.filter((entry) => normalizeTask(entry.Task) === "holiday");
   const holidayList = holidays.filter(
-    (holiday) => holiday.Task.length <= 30 && !["On Leave", "Leave Day"].includes(holiday.Task)
+    (holiday) =>
+      holiday.Task.length <= 30 &&
+      !["on leave", "leave day"].includes(normalizeTask(holiday.Task))
   );
-  const leaveList = holidays.filter((holiday) =>
-    ["On Leave", "Leave Day"].includes(holiday.Task)
+
+  
+  const leaveList = data.filter((entry) => {
+    const task = normalizeTask(entry.Task);
+    
+    return /^(on leave|leave day)$/.test(task);
+  });
+
+  
+
+  
+  const excludedDates = [
+    ...holidayList.map((holiday) => holiday.Date.trim()),
+    ...leaveList.map((leave) => leave.Date.trim()),
+  ];
+
+  
+  const filteredData = data.filter(
+    (entry) =>
+      normalizeTask(entry.Task) !== "holiday" && !excludedDates.includes(entry.Date.trim())
   );
+
+  console.log(filteredData)
 
   return (
     <Document>
@@ -130,26 +155,36 @@ const PDFDocument = ({ data, font, positions, userDetails }) => {
           <View style={styles.tableContainer}>
             <Text style={styles.tableTitle}>Holidays and Leaves</Text>
             <View style={styles.table}>
+              {/* Table Header */}
               <View style={styles.tableHeader}>
                 <Text style={styles.columnHeader}>Date</Text>
                 <Text style={styles.columnHeader}>Holidays</Text>
                 <Text style={styles.columnHeader}>Leaves</Text>
               </View>
-              {data.map((entry, index) => {
-                const isHoliday =
-                  entry.Task === "HOLIDAY" &&
-                  entry.Task.length <= 30 &&
-                  !["On Leave", "Leave Day"].includes(entry.Task);
-                const isLeave = ["On Leave", "Leave Day"].includes(entry.Task);
-
-                return (
-                  <View key={index} style={styles.tableRow}>
-                    <Text style={styles.cell}>{entry.Date || ""}</Text>
-                    <Text style={styles.cell}>{isHoliday ? entry.Task : ""}</Text>
-                    <Text style={styles.cell}>{isLeave ? entry.Task : ""}</Text>
-                  </View>
-                );
-              })}
+              {/* Table Rows */}
+              {data
+                .filter((entry) => {
+                  const isHoliday =
+                    entry.Task === "HOLIDAY" &&
+                    entry.Task.length <= 30 &&
+                    !["On Leave", "Leave Day"].includes(entry.Task);
+                  const isLeave = ["On Leave", "Leave Day"].includes(entry.Task);
+                  return isHoliday || isLeave; 
+                })
+                .map((entry, index) => {
+                  const isHoliday =
+                    entry.Task === "HOLIDAY" &&
+                    entry.Task.length <= 30 &&
+                    !["On Leave", "Leave Day"].includes(entry.Task);
+                  const isLeave = ["On Leave", "Leave Day"].includes(entry.Task);
+                  return (
+                    <View key={index} style={styles.tableRow}>
+                      <Text style={styles.cell}>{entry.Date || ""}</Text>
+                      <Text style={styles.cell}>{isHoliday ? entry.Task : ""}</Text>
+                      <Text style={styles.cell}>{isLeave ? entry.Task : ""}</Text>
+                    </View>
+                  );
+                })}
             </View>
           </View>
         </Page>

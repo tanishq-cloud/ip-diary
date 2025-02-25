@@ -3,6 +3,7 @@ import { PDFViewer, PDFDownloadLink } from "@react-pdf/renderer";
 import FileUpload from "../form/file-upload";
 import PDFDocument from "./pdf-document";
 import UserDetailsForm from "../form/user-details";
+import FontSelector from "../options/font-selector";
 
 // Utility to detect if the browser is Firefox
 const isFirefox = () => {
@@ -141,21 +142,7 @@ const PDFGenerator = () => {
             </div>
 
             {/* Font Selection */}
-            <div className="space-y-2">
-              <h3 className="text-sm font-medium text-gray-700">
-                Font Selection
-              </h3>
-              <select
-                data-testid="font-select"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={font}
-                onChange={(e) => setFont(e.target.value)}
-              >
-                <option value="Helvetica">Helvetica</option>
-                <option value="Times-Roman">Times New Roman</option>
-                <option value="Courier">Courier</option>
-              </select>
-            </div>
+            <FontSelector font={font} setFont={setFont} />
 
             {/* Layout Selection */}
             <div className="space-y-2">

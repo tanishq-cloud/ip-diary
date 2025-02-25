@@ -61,6 +61,7 @@ const FileUpload = ({ onDataProcessed }) => {
   const fetchDataFromGoogleSheet = async (link) => {
     try {
       const response = await fetch(link);
+      console.log(response);
       if (!response.ok) {
         throw new Error("Failed to fetch data from the provided link.");
       }

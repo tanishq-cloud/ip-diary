@@ -96,6 +96,43 @@ const styles = StyleSheet.create({
     borderBottomColor: "#000000",
     marginTop: 5,
   },
+  tableContainer: {
+    marginTop: 20,
+    paddingHorizontal: 30,
+  },
+  tableTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 10,
+    textAlign: "center",
+  },
+  table: {
+    border: "1px solid black",
+    borderRadius: 5,
+    overflow: "hidden",
+  },
+  tableHeader: {
+    flexDirection: "row",
+    backgroundColor: "#f0f0f0",
+    borderBottom: "1px solid black",
+  },
+  columnHeader: {
+    flex: 1,
+    padding: 8,
+    textAlign: "center",
+    fontWeight: "bold",
+    borderRight: "1px solid black",
+  },
+  tableRow: {
+    flexDirection: "row",
+    borderBottom: "1px solid black",
+  },
+  cell: {
+    flex: 1,
+    padding: 8,
+    textAlign: "center",
+    borderRight: "1px solid black",
+  },
 });
 
 export default styles;
