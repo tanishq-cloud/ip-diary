@@ -1,7 +1,8 @@
 import React from "react";
-import { Document, Page, Text, View, Image, StyleSheet } from "@react-pdf/renderer";
+import { Document, Page, Text, View, Image } from "@react-pdf/renderer";
 import styles from "./style-sheet";
 import ifhelogo from "/public/ifhe.jpg";
+import parseMarkdown from "./markdown-parser";
 
 function formatDate(date) {
   const dateObj = new Date(date);
@@ -12,41 +13,35 @@ function formatDate(date) {
 }
 
 const PDFDocument = ({ data, font, positions, userDetails }) => {
-  
-  
-
   const normalizeTask = (task) => task.trim().toLowerCase();
 
-  
-  const holidays = data.filter((entry) => normalizeTask(entry.Task) === "holiday");
+  const holidays = data.filter(
+    (entry) => normalizeTask(entry.Task) === "holiday"
+  );
   const holidayList = holidays.filter(
     (holiday) =>
       holiday.Task.length <= 30 &&
       !["on leave", "leave day"].includes(normalizeTask(holiday.Task))
   );
 
-  
   const leaveList = data.filter((entry) => {
     const task = normalizeTask(entry.Task);
-    
+
     return /^(on leave|leave day)$/.test(task);
   });
 
-  
-
-  
   const excludedDates = [
     ...holidayList.map((holiday) => holiday.Date.trim()),
     ...leaveList.map((leave) => leave.Date.trim()),
   ];
 
-  
   const filteredData = data.filter(
     (entry) =>
-      normalizeTask(entry.Task) !== "holiday" && !excludedDates.includes(entry.Date.trim())
+      normalizeTask(entry.Task) !== "holiday" &&
+      !excludedDates.includes(entry.Date.trim())
   );
 
-  console.log(filteredData)
+  console.log(filteredData);
 
   return (
     <Document>
@@ -112,7 +107,7 @@ const PDFDocument = ({ data, font, positions, userDetails }) => {
                 </Text>
               </View>
               <View style={{ ...styles.content, ...positions.content }}>
-                <Text style={{ fontFamily: font }}>{entry.Task || ""}</Text>
+                {parseMarkdown(entry.Task || "", font)}
               </View>
               <View style={{ ...styles.footer }}>
                 <View style={styles.footerRow}>
@@ -168,20 +163,28 @@ const PDFDocument = ({ data, font, positions, userDetails }) => {
                     entry.Task === "HOLIDAY" &&
                     entry.Task.length <= 30 &&
                     !["On Leave", "Leave Day"].includes(entry.Task);
-                  const isLeave = ["On Leave", "Leave Day"].includes(entry.Task);
-                  return isHoliday || isLeave; 
+                  const isLeave = ["On Leave", "Leave Day"].includes(
+                    entry.Task
+                  );
+                  return isHoliday || isLeave;
                 })
                 .map((entry, index) => {
                   const isHoliday =
                     entry.Task === "HOLIDAY" &&
                     entry.Task.length <= 30 &&
                     !["On Leave", "Leave Day"].includes(entry.Task);
-                  const isLeave = ["On Leave", "Leave Day"].includes(entry.Task);
+                  const isLeave = ["On Leave", "Leave Day"].includes(
+                    entry.Task
+                  );
                   return (
                     <View key={index} style={styles.tableRow}>
                       <Text style={styles.cell}>{entry.Date || ""}</Text>
-                      <Text style={styles.cell}>{isHoliday ? entry.Task : ""}</Text>
-                      <Text style={styles.cell}>{isLeave ? entry.Task : ""}</Text>
+                      <Text style={styles.cell}>
+                        {isHoliday ? entry.Task : ""}
+                      </Text>
+                      <Text style={styles.cell}>
+                        {isLeave ? entry.Task : ""}
+                      </Text>
                     </View>
                   );
                 })}
