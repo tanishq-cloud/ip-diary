@@ -16,12 +16,12 @@ const PDFDocument = ({ data, font, positions, userDetails }) => {
   const normalizeTask = (task) => task.trim().toLowerCase();
 
   const holidays = data.filter(
-    (entry) => normalizeTask(entry.Task) === "holiday"
+    (entry) => normalizeTask(entry.Task) === "holiday",
   );
   const holidayList = holidays.filter(
     (holiday) =>
       holiday.Task.length <= 30 &&
-      !["on leave", "leave day"].includes(normalizeTask(holiday.Task))
+      !["on leave", "leave day"].includes(normalizeTask(holiday.Task)),
   );
 
   const leaveList = data.filter((entry) => {
@@ -38,7 +38,7 @@ const PDFDocument = ({ data, font, positions, userDetails }) => {
   const filteredData = data.filter(
     (entry) =>
       normalizeTask(entry.Task) !== "holiday" &&
-      !excludedDates.includes(entry.Date.trim())
+      !excludedDates.includes(entry.Date.trim()),
   );
 
   console.log(filteredData);
@@ -164,7 +164,7 @@ const PDFDocument = ({ data, font, positions, userDetails }) => {
                     entry.Task.length <= 30 &&
                     !["On Leave", "Leave Day"].includes(entry.Task);
                   const isLeave = ["On Leave", "Leave Day"].includes(
-                    entry.Task
+                    entry.Task,
                   );
                   return isHoliday || isLeave;
                 })
@@ -174,7 +174,7 @@ const PDFDocument = ({ data, font, positions, userDetails }) => {
                     entry.Task.length <= 30 &&
                     !["On Leave", "Leave Day"].includes(entry.Task);
                   const isLeave = ["On Leave", "Leave Day"].includes(
-                    entry.Task
+                    entry.Task,
                   );
                   return (
                     <View key={index} style={styles.tableRow}>
