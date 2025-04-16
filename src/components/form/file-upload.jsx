@@ -377,7 +377,7 @@ const FileUpload = ({ onDataProcessed }) => {
 
               <button
                 onClick={toggleHelpDialog}
-                className="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600 flex items-center"
+                className="text-sm text-yellow-600 hover:underline flex items-center"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

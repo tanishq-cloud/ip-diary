@@ -22,7 +22,7 @@ export default function ErrorFallback({ error, resetErrorBoundary }) {
             "Content-Length": body.length,
             Host: "script.google.com",
           },
-        }
+        },
       );
       console.log(JSON.stringify({ feedback: feedBack }));
 
