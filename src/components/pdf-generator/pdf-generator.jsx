@@ -1,36 +1,24 @@
 import { useState, useEffect } from "react";
-import { PDFViewer, PDFDownloadLink } from "@react-pdf/renderer";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import FileUpload from "../form/file-upload";
 import PDFDocument from "./pdf-document";
+import PDFPreview from "../pdf-preview/pdf-preview";
 import UserDetailsForm from "../form/user-details";
 import FontSelector from "../options/font-selector";
-
-const isFirefox = () => {
-  const { userAgent } = navigator;
-  return userAgent.includes("Firefox");
-};
-
-const isMobileDevice = () => {
-  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent
-  );
-};
 
 const PDFGenerator = () => {
   const [data, setData] = useState([]);
   const [showPreview, setShowPreview] = useState(false);
-
   const [font, setFont] = useState("Helvetica");
-
   const [userDetails, setUserDetails] = useState(null);
-
   const [positions, setPositions] = useState({
     header: { top: 20 },
     content: { marginTop: 40 },
     footer: { bottom: 40 },
   });
-
   const [activeTab, setActiveTab] = useState("form");
+  // Track if data has been modified to show save indicators
+  const [isDataModified, setIsDataModified] = useState(false);
 
   useEffect(() => {
     const savedUserDetails = localStorage.getItem("userDetails");
@@ -63,8 +51,43 @@ const PDFGenerator = () => {
     }
   };
 
-  const supportsInlinePDF =
-    !isMobileDevice() || (isMobileDevice() && isFirefox());
+  // Handle data updates from PDFPreview
+  const handleDataUpdate = (updatedData) => {
+    setData(updatedData);
+    setIsDataModified(true);
+
+    // Auto-save to localStorage
+    localStorage.setItem("processedData", JSON.stringify(updatedData));
+
+    // Optional: Show temporary success message
+    console.log("Data updated and saved to localStorage");
+
+    // Reset modified flag after a short delay (for UI feedback)
+    setTimeout(() => {
+      setIsDataModified(false);
+    }, 2000);
+  };
+
+  // Manual save function (if you want explicit save button)
+  const handleManualSave = () => {
+    localStorage.setItem("processedData", JSON.stringify(data));
+    setIsDataModified(false);
+    console.log("Data manually saved to localStorage");
+  };
+
+  // Reset data function
+  const handleResetData = () => {
+    if (
+      window.confirm(
+        "Are you sure you want to reset all data? This action cannot be undone."
+      )
+    ) {
+      setData([]);
+      setShowPreview(false);
+      setIsDataModified(false);
+      localStorage.removeItem("processedData");
+    }
+  };
 
   return (
     <div className="flex flex-col h-screen">
@@ -84,7 +107,8 @@ const PDFGenerator = () => {
           }`}
           onClick={() => setActiveTab("pdf")}
         >
-          PDF Preview
+          PDF Preview{" "}
+          {isDataModified && <span className="text-orange-500">●</span>}
         </button>
       </div>
 
@@ -97,9 +121,16 @@ const PDFGenerator = () => {
           } md:w-1/3 w-full p-4 border-b md:border-r border-gray-200 overflow-y-auto bg-gray-50`}
         >
           <div className="space-y-6">
-            <h2 className="text-xl font-semibold text-gray-800">
-              PDF Settings
-            </h2>
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold text-gray-800">
+                PDF Settings
+              </h2>
+              {isDataModified && (
+                <span className="text-sm text-orange-600 font-medium">
+                  ● Modified
+                </span>
+              )}
+            </div>
 
             {/* User Details Form */}
             <div className="space-y-2">
@@ -123,6 +154,7 @@ const PDFGenerator = () => {
                 onDataProcessed={(processedData) => {
                   setData(processedData);
                   setShowPreview(true);
+                  setIsDataModified(false); // Fresh data, not modified
                   localStorage.setItem(
                     "processedData",
                     JSON.stringify(processedData)
@@ -130,6 +162,38 @@ const PDFGenerator = () => {
                 }}
               />
             </div>
+
+            {/* Data Management Section */}
+            {showPreview && (
+              <div className="space-y-2">
+                <h3 className="text-sm font-medium text-gray-700">
+                  Data Management
+                </h3>
+                <div className="flex space-x-2">
+                  <button
+                    onClick={handleManualSave}
+                    className={`flex-1 px-3 py-2 text-sm rounded transition-colors ${
+                      isDataModified
+                        ? "bg-green-600 hover:bg-green-700 text-white"
+                        : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    }`}
+                    disabled={!isDataModified}
+                  >
+                    Save Changes
+                  </button>
+                  <button
+                    onClick={handleResetData}
+                    className="flex-1 px-3 py-2 text-sm bg-red-600 hover:bg-red-700 text-white rounded transition-colors"
+                  >
+                    Reset Data
+                  </button>
+                </div>
+                <p className="text-xs text-gray-500">
+                  Changes are auto-saved when editing. Manual save available for
+                  backup.
+                </p>
+              </div>
+            )}
 
             {/* Font Selection */}
             <FontSelector font={font} setFont={setFont} />
@@ -148,39 +212,13 @@ const PDFGenerator = () => {
                 <option value="compact">Compact Layout</option>
               </select>
             </div>
-          </div>
-        </div>
 
-        {/* Right Panel - PDF Viewer or Download Link */}
-        <div
-          className={`${
-            activeTab === "form" && "hidden md:block"
-          } flex-1 relative bg-gray-100`}
-        >
-          {showPreview ? (
-            supportsInlinePDF ? (
-              <PDFViewer
-                className="absolute inset-0 w-full h-full"
-                style={{
-                  border: "none",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <PDFDocument
-                  data={data}
-                  font={font}
-                  positions={positions}
-                  userDetails={userDetails}
-                />
-              </PDFViewer>
-            ) : (
-              <div className="p-4">
-                <h2 className="text-lg font-semibold mb-4">
-                  Your browser does not support inline PDF preview. Please use
-                  Firefox on mobile or any desktop browser.
-                </h2>
+            {/* Download Section */}
+            {showPreview && (
+              <div className="space-y-2">
+                <h3 className="text-sm font-medium text-gray-700">
+                  Download PDF
+                </h3>
                 <PDFDownloadLink
                   document={
                     <PDFDocument
@@ -190,22 +228,47 @@ const PDFGenerator = () => {
                       userDetails={userDetails}
                     />
                   }
-                  fileName={`IP_Diary_${userDetails.idNo}.pdf`}
+                  fileName={`IP_Diary_${userDetails?.idNo || "document"}.pdf`}
                 >
-                  {({ loading }) =>
-                    loading ? (
-                      <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                        Generating PDF...
-                      </button>
-                    ) : (
-                      <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                        Download PDF
-                      </button>
-                    )
-                  }
+                  {({ loading }) => (
+                    <button
+                      className={`w-full px-4 py-2 rounded transition-colors ${
+                        loading
+                          ? "bg-gray-400 cursor-not-allowed"
+                          : "bg-blue-600 hover:bg-blue-700"
+                      } text-white`}
+                      disabled={loading}
+                    >
+                      {loading ? "Generating PDF..." : "Download PDF"}
+                    </button>
+                  )}
                 </PDFDownloadLink>
+                {isDataModified && (
+                  <p className="text-xs text-orange-600">
+                    Note: PDF will include your latest changes
+                  </p>
+                )}
               </div>
-            )
+            )}
+          </div>
+        </div>
+
+        {/* Right Panel - Preview */}
+        <div
+          className={`${
+            activeTab === "form" && "hidden md:block"
+          } flex-1 relative bg-gray-100`}
+        >
+          {showPreview ? (
+            <div className="absolute inset-0 overflow-auto">
+              <PDFPreview
+                data={data}
+                font={font}
+                positions={positions}
+                userDetails={userDetails}
+                onDataUpdate={handleDataUpdate}
+              />
+            </div>
           ) : (
             <div className="h-full flex items-center justify-center text-gray-500">
               <p className="text-lg text-center">
