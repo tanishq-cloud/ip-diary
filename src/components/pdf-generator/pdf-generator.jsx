@@ -1,45 +1,37 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { PDFViewer, PDFDownloadLink } from "@react-pdf/renderer";
 import FileUpload from "../form/file-upload";
 import PDFDocument from "./pdf-document";
 import UserDetailsForm from "../form/user-details";
 import FontSelector from "../options/font-selector";
 
-// Utility to detect if the browser is Firefox
 const isFirefox = () => {
   const { userAgent } = navigator;
   return userAgent.includes("Firefox");
 };
 
-// Utility to detect if the device is mobile
 const isMobileDevice = () => {
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent,
+    navigator.userAgent
   );
 };
 
 const PDFGenerator = () => {
-  // State for uploaded data
   const [data, setData] = useState([]);
   const [showPreview, setShowPreview] = useState(false);
 
-  // State for font selection
   const [font, setFont] = useState("Helvetica");
 
-  // State for user details
   const [userDetails, setUserDetails] = useState(null);
 
-  // State for layout positions
   const [positions, setPositions] = useState({
     header: { top: 20 },
     content: { marginTop: 40 },
     footer: { bottom: 40 },
   });
 
-  // State for active tab
   const [activeTab, setActiveTab] = useState("form");
 
-  // Load data from local storage on component mount
   useEffect(() => {
     const savedUserDetails = localStorage.getItem("userDetails");
     const savedData = localStorage.getItem("processedData");
@@ -50,11 +42,10 @@ const PDFGenerator = () => {
 
     if (savedData) {
       setData(JSON.parse(savedData));
-      setShowPreview(true); // Automatically show preview if data exists
+      setShowPreview(true);
     }
   }, []);
 
-  // Handle layout selection change
   const handleChange = (event) => {
     const selectedLayout = event.target.value;
     if (selectedLayout === "compact") {
@@ -72,7 +63,6 @@ const PDFGenerator = () => {
     }
   };
 
-  // Check if the browser supports inline PDF rendering
   const supportsInlinePDF =
     !isMobileDevice() || (isMobileDevice() && isFirefox());
 
@@ -135,7 +125,7 @@ const PDFGenerator = () => {
                   setShowPreview(true);
                   localStorage.setItem(
                     "processedData",
-                    JSON.stringify(processedData),
+                    JSON.stringify(processedData)
                   );
                 }}
               />
@@ -169,7 +159,6 @@ const PDFGenerator = () => {
         >
           {showPreview ? (
             supportsInlinePDF ? (
-              // Render PDF preview for supported browsers
               <PDFViewer
                 className="absolute inset-0 w-full h-full"
                 style={{
@@ -187,7 +176,6 @@ const PDFGenerator = () => {
                 />
               </PDFViewer>
             ) : (
-              // Fallback to download link for unsupported browsers
               <div className="p-4">
                 <h2 className="text-lg font-semibold mb-4">
                   Your browser does not support inline PDF preview. Please use
