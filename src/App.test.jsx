@@ -52,7 +52,7 @@ describe("PDFGenerator Component", () => {
 
     // Check initial PDF preview message
     expect(
-      screen.getByText("Fill in details and upload file to preview PDF"),
+      screen.getByText("Fill in details and upload file to preview PDF")
     ).toBeInTheDocument();
   });
 
@@ -89,7 +89,7 @@ describe("PDFGenerator Component", () => {
     fireEvent.click(uploadButton);
 
     // Check PDF viewer is rendered
-    expect(screen.getByTestId("pdf-viewer")).toBeInTheDocument();
+    expect(screen.getByTestId("pdf-preview")).toBeInTheDocument();
   });
 
   it("handles font selection correctly", () => {

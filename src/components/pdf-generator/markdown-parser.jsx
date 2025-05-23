@@ -141,7 +141,7 @@ const parseMarkdown = (markdown) => {
         return (
           <View style={styles.list}>
             {node.children.map((child, index) =>
-              renderNode(child, node.ordered ? index + 1 : null)
+              renderNode(child, node.ordered ? index + 1 : null),
             )}
           </View>
         );

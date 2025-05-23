@@ -4,7 +4,7 @@ import * as XLSX from "xlsx";
 const FileUpload = ({ onDataProcessed }) => {
   const [activeTab, setActiveTab] = useState("upload");
   const [googleSheetLink, setGoogleSheetLink] = useState(
-    localStorage.getItem("googleSheetLink") || ""
+    localStorage.getItem("googleSheetLink") || "",
   );
   const [isEditing, setIsEditing] = useState(!googleSheetLink);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -82,7 +82,7 @@ const FileUpload = ({ onDataProcessed }) => {
       } catch (error) {
         console.error("Error parsing file:", error);
         alert(
-          "Error processing file. Please check the troubleshooting notes for help."
+          "Error processing file. Please check the troubleshooting notes for help.",
         );
       }
     };
@@ -115,7 +115,7 @@ const FileUpload = ({ onDataProcessed }) => {
     } catch (error) {
       console.error("Error fetching Google Sheets data:", error);
       alert(
-        "Failed to fetch data from the provided link. Please check the troubleshooting notes for help."
+        "Failed to fetch data from the provided link. Please check the troubleshooting notes for help.",
       );
     }
   };
@@ -135,7 +135,7 @@ const FileUpload = ({ onDataProcessed }) => {
       link.includes("output=csv");
     if (!isValidLink) {
       alert(
-        "Invalid Google Sheets link. Please provide a valid CSV export link."
+        "Invalid Google Sheets link. Please provide a valid CSV export link.",
       );
       return;
     }

@@ -32,12 +32,12 @@ const PDFPreview = ({
   const normalizeTask = (task) => task.trim().toLowerCase();
 
   const holidays = localData.filter(
-    (entry) => normalizeTask(entry.Task) === "holiday"
+    (entry) => normalizeTask(entry.Task) === "holiday",
   );
   const holidayList = holidays.filter(
     (holiday) =>
       holiday.Task.length <= 30 &&
-      !["on leave", "leave day"].includes(normalizeTask(holiday.Task))
+      !["on leave", "leave day"].includes(normalizeTask(holiday.Task)),
   );
 
   const leaveList = localData.filter((entry) => {
@@ -53,7 +53,7 @@ const PDFPreview = ({
   const filteredData = localData.filter(
     (entry) =>
       normalizeTask(entry.Task) !== "holiday" &&
-      !excludedDates.includes(entry.Date.trim())
+      !excludedDates.includes(entry.Date.trim()),
   );
 
   const totalPages =
@@ -104,7 +104,7 @@ const PDFPreview = ({
   const saveEdit = () => {
     const newData = [...localData];
     const originalIndex = localData.findIndex(
-      (entry, idx) => filteredData[editingIndex] === entry
+      (entry, idx) => filteredData[editingIndex] === entry,
     );
 
     if (originalIndex !== -1) {
@@ -223,7 +223,7 @@ const PDFPreview = ({
                   ) {
                     startEditing(
                       contentPageIndex,
-                      filteredData[contentPageIndex].Task
+                      filteredData[contentPageIndex].Task,
                     );
                   }
                 }
@@ -663,7 +663,7 @@ const PDFPreview = ({
                         entry.Task.length <= 30 &&
                         !["On Leave", "Leave Day"].includes(entry.Task);
                       const isLeave = ["On Leave", "Leave Day"].includes(
-                        entry.Task
+                        entry.Task,
                       );
                       return isHoliday || isLeave;
                     })
@@ -673,7 +673,7 @@ const PDFPreview = ({
                         entry.Task.length <= 30 &&
                         !["On Leave", "Leave Day"].includes(entry.Task);
                       const isLeave = ["On Leave", "Leave Day"].includes(
-                        entry.Task
+                        entry.Task,
                       );
 
                       return (

@@ -17,7 +17,7 @@ const PDFGenerator = () => {
     footer: { bottom: 40 },
   });
   const [activeTab, setActiveTab] = useState("form");
-  // Track if data has been modified to show save indicators
+
   const [isDataModified, setIsDataModified] = useState(false);
 
   useEffect(() => {
@@ -51,31 +51,25 @@ const PDFGenerator = () => {
     }
   };
 
-  // Handle data updates from PDFPreview
   const handleDataUpdate = (updatedData) => {
     setData(updatedData);
     setIsDataModified(true);
 
-    // Auto-save to localStorage
     localStorage.setItem("processedData", JSON.stringify(updatedData));
 
-    // Optional: Show temporary success message
     console.log("Data updated and saved to localStorage");
 
-    // Reset modified flag after a short delay (for UI feedback)
     setTimeout(() => {
       setIsDataModified(false);
     }, 2000);
   };
 
-  // Manual save function (if you want explicit save button)
   const handleManualSave = () => {
     localStorage.setItem("processedData", JSON.stringify(data));
     setIsDataModified(false);
     console.log("Data manually saved to localStorage");
   };
 
-  // Reset data function
   const handleResetData = () => {
     if (
       window.confirm(
@@ -154,7 +148,7 @@ const PDFGenerator = () => {
                 onDataProcessed={(processedData) => {
                   setData(processedData);
                   setShowPreview(true);
-                  setIsDataModified(false); // Fresh data, not modified
+                  setIsDataModified(false);
                   localStorage.setItem(
                     "processedData",
                     JSON.stringify(processedData)
@@ -216,7 +210,7 @@ const PDFGenerator = () => {
             {/* Download Section */}
             {showPreview && (
               <div className="space-y-2">
-                <h3 className="text-sm font-medium text-gray-700">
+                <h3 data-testid="upload-button"className="text-sm font-medium text-gray-700">
                   Download PDF
                 </h3>
                 <PDFDownloadLink
@@ -260,7 +254,7 @@ const PDFGenerator = () => {
           } flex-1 relative bg-gray-100`}
         >
           {showPreview ? (
-            <div className="absolute inset-0 overflow-auto">
+            <div data-testid="pdf-preview" className="absolute inset-0 overflow-auto">
               <PDFPreview
                 data={data}
                 font={font}
