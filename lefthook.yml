@@ -3,8 +3,3 @@ pre-commit:
   commands:
     format:
       run: npm run format
-
-pre-push:
-  commands:
-    test:
-      run: npm run test:run

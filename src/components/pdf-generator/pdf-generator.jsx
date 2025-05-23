@@ -73,7 +73,7 @@ const PDFGenerator = () => {
   const handleResetData = () => {
     if (
       window.confirm(
-        "Are you sure you want to reset all data? This action cannot be undone."
+        "Are you sure you want to reset all data? This action cannot be undone.",
       )
     ) {
       setData([]);
@@ -151,7 +151,7 @@ const PDFGenerator = () => {
                   setIsDataModified(false);
                   localStorage.setItem(
                     "processedData",
-                    JSON.stringify(processedData)
+                    JSON.stringify(processedData),
                   );
                 }}
               />
@@ -210,7 +210,10 @@ const PDFGenerator = () => {
             {/* Download Section */}
             {showPreview && (
               <div className="space-y-2">
-                <h3 data-testid="upload-button"className="text-sm font-medium text-gray-700">
+                <h3
+                  data-testid="upload-button"
+                  className="text-sm font-medium text-gray-700"
+                >
                   Download PDF
                 </h3>
                 <PDFDownloadLink
@@ -254,7 +257,10 @@ const PDFGenerator = () => {
           } flex-1 relative bg-gray-100`}
         >
           {showPreview ? (
-            <div data-testid="pdf-preview" className="absolute inset-0 overflow-auto">
+            <div
+              data-testid="pdf-preview"
+              className="absolute inset-0 overflow-auto"
+            >
               <PDFPreview
                 data={data}
                 font={font}
